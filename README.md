@@ -166,9 +166,9 @@ as well:
 
 ```php
 <?php
-// assume the request indicates these Accept values (XML is best, then CSV,
-// then anything else)
-$_SERVER['HTTP_ACCEPT'] = 'text/html;level=1;q=0.5,text/html;level=3';
+// assume the request indicates these Accept values (text/html with version=3
+// param is best, then text/html with version=1)
+$_SERVER['HTTP_ACCEPT'] = 'text/html;version=1;q=0.5,text/html;version=3';
 
 // create the accept factory
 $accept_factory = new AcceptFactory($_SERVER);
@@ -179,12 +179,12 @@ $accept = $accept_factory->newInstance();
 // assume our application has these available as media types,
 // in order of highest-to-lowest preference for delivery
 $available = array(
-    'text/html;level=1',
-    'text/html;level=2',
+    'text/html;version=1',
+    'text/html;version=2',
 );
 
 // get the best match between what the request finds acceptable and what we
-// have available; the result in this case is 'text/html;level=1'
+// have available; the result in this case is 'text/html;version=1'
 $media = $accept->negotiateMedia($available);
 echo $media->getValue(); // text/html
 var_dump($media->getParameters()); // array('level' => '1')
